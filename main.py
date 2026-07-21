@@ -71,13 +71,34 @@ def delete_task(tasks):
         print("Please enter a valid number.")
 
 
+def mark_completed(tasks):
+    """Prompt the user for a task number and mark it as completed."""
+    view_tasks(tasks)
+    if not tasks:
+        return
+    try:
+        index = int(input("Enter the number of the task to mark as completed: ")) - 1
+        if 0 <= index < len(tasks):
+            if tasks[index]["done"]:
+                print(f"Task '{tasks[index]['description']}' is already completed.")
+            else:
+                tasks[index]["done"] = True
+                save_tasks(tasks)
+                print(f"Task '{tasks[index]['description']}' marked as completed.")
+        else:
+            print("Invalid task number.")
+    except ValueError:
+        print("Please enter a valid number.")
+
+
 def show_menu():
     """Display the main menu options."""
     print("\n===== TO-DO LIST =====\n")
     print("1. Add Task")
     print("2. View Tasks")
-    print("3. Delete Task")
-    print("4. Exit")
+    print("3. Mark Task as Completed")
+    print("4. Delete Task")
+    print("5. Exit")
     print("======================")
 
 
@@ -87,19 +108,21 @@ def main():
 
     while True:
         show_menu()
-        choice = input("Choose an option (1-4): ").strip()
+        choice = input("Choose an option (1-5): ").strip()
 
         if choice == "1":
             add_task(tasks)
         elif choice == "2":
             view_tasks(tasks)
         elif choice == "3":
-            delete_task(tasks)
+            mark_completed(tasks)
         elif choice == "4":
+            delete_task(tasks)
+        elif choice == "5":
             print("Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 4.")
+            print("Invalid choice. Please enter a number between 1 and 5.")
 
 
 if __name__ == "__main__":
